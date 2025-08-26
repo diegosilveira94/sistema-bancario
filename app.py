@@ -1,10 +1,11 @@
-menu = '''
-    [1]DEPOSITAR
-    [2]SACAR
-    [3]EXTRATO
-    [0]SAIR
+def menu (): 
+    '''
+        [1]DEPOSITAR
+        [2]SACAR
+        [3]EXTRATO
+        [0]SAIR
 
-    DIGITE A OPÇÃO DESEJADA: '''
+        DIGITE A OPÇÃO DESEJADA: '''
 
 opcao = 0
 saldo = 0
