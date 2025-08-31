@@ -1,5 +1,9 @@
 from abc import ABC, abstractmethod
-from datetime import datetime
+from datetime import datetime, timezone
+import textwrap
+from pathlib import Path
+
+ROOT_PATH = Path(__file__).parent
 
 class ContasIterador:
     def __init__(self, contas):
@@ -44,6 +48,8 @@ class PessoaFisica(Cliente):
         self.nome = nome
         self.data_nasc = data_nasc
 
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__}: ('{self.nome}', '{self.cpf}')>"
 class Conta():
     def __init__(self, saldo, num_conta, agencia, cliente, historico):
         self._saldo = saldo
@@ -207,7 +213,15 @@ class Saque(Transacao):
 def log_transacao(func):
     def envelope(*args, **kwargs):
         resultado = func(*args, **kwargs)
-        print(f"{datetime.now()}: {func.__name__.upper()}")
+        data_hora = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:&M:%S")
+        
+        with open(ROOT_PATH / "log.txt", "a") as arquivo:
+            arquivo.write(
+               f"{{data_hora}} Função '{func.__name__}' executa com argumentos {args} e {kwargs}. Retornou {resultado}\n" 
+            )
+        
+        
+        print(f"{data_hora}: {func.__name__.upper()}")
         return resultado
 
     return envelope
